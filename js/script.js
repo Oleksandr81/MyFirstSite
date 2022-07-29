@@ -1,5 +1,8 @@
 
 window.addEventListener('DOMContentLoaded', () => {
+
+    // add tab ========================================================
+    
     const tabs = document.querySelectorAll('.tabheader__item'),
           tabsContent = document.querySelectorAll('.tabcontent'),
           tabParen = document.querySelector('.tabheader__items');
@@ -41,5 +44,59 @@ window.addEventListener('DOMContentLoaded', () => {
     hideTabContent();
     showTabContent();
     
+    // add timer clock ========================================================
+
+    const deadLine = '2022-07-30';
+
+    function getTimeRemaining(endTime) {
+        const timeZone = new Date().getTimezoneOffset() * 60 * 1000;
+        const t = Date.parse(endTime) - Date.parse(new Date()) - timeZone;
+        
+        const days = Math.floor(t / (1000 * 60 * 60 * 24)),
+              hours = Math.floor(t / (1000 * 60 * 60) % 24),
+              minutes = Math.floor(t / (1000 * 60) % 60),
+              secons = Math.floor(t / 1000 % 60);
+
+        return {
+            'total': t,
+            'days': days,
+            'huors': hours,
+            'minutes': minutes,
+            'secons': secons
+        };
+    }
+
+    function addZero(num) {
+        if (num < 10) {
+            return `0${num}`;
+        } else {
+            return num;
+        }
+    }
+
+    function setClock(selector, endTime) {
+        const timer = document.querySelector(selector),
+              days = timer.querySelector('#days'),
+              huors = timer.querySelector('#hours'),
+              minutes = timer.querySelector('#minutes'),
+              secons = timer.querySelector('#seconds'),
+              timeInterval = setInterval(updateClock, 1000);
+        
+        updateClock();
+
+            function updateClock() {
+                const t = getTimeRemaining(endTime);
+
+                days.innerHTML = addZero(t.days);
+                huors.innerHTML = addZero(t.huors);
+                minutes.innerHTML = addZero(t.minutes);
+                secons.innerHTML = addZero(t.secons);
+                
+                if (t.total <= 0) {
+                    clearInterval(timeInterval);
+                }
+            }
+    }
+    setClock('.timer', deadLine);
 });
 
