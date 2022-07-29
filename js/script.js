@@ -46,12 +46,22 @@ window.addEventListener('DOMContentLoaded', () => {
     
     // add timer clock ========================================================
 
-    const deadLine = '2022-07-30';
+    const deadLine = '2022-08-30';
 
     function getTimeRemaining(endTime) {
         const timeZone = new Date().getTimezoneOffset() * 60 * 1000;
         const t = Date.parse(endTime) - Date.parse(new Date()) - timeZone;
         
+        if (t <= 0) {
+            return {
+                'total': 0,
+                'days': 0,
+                'huors': 0,
+                'minutes': 0,
+                'secons': 0
+            };
+        }
+                
         const days = Math.floor(t / (1000 * 60 * 60 * 24)),
               hours = Math.floor(t / (1000 * 60 * 60) % 24),
               minutes = Math.floor(t / (1000 * 60) % 60),
